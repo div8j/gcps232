@@ -38,6 +38,18 @@ view: orders {
     drill_fields: [detail*]
   }
 
+  measure: row_check{
+    type: count
+    html:
+    {% if row['orders.status'] == 'cancelled'%}
+      <p style="color: red">{{ rendered_value }}</p>
+    {% elsif row['orders.status'] == 'complete'%}
+      <p style="color: yellow">{{ rendered_value }}</p>
+    {% else %}
+      <p style="color: green">{{ rendered_value }}</p>
+    {% endif %};;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
