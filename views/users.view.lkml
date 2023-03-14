@@ -18,6 +18,14 @@ view: users {
     sql: ${TABLE}.city ;;
   }
 
+  dimension: city_link {
+    type: string
+    sql: ${city} ;;
+    link: {
+      url: "http://www.google.com/search?q={{ users.country._value}}"
+    }
+  }
+
   dimension: country {
     type: string
     map_layer_name: countries
