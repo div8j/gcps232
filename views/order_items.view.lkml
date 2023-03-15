@@ -57,15 +57,15 @@ view: order_items {
   parameter: demo {
     type: unquoted
     allowed_value: {
-      label: "Less than 500"
+      label: "SALEPRICE"
       value: "sale_price"
     }
     allowed_value: {
-      label: "Less than 10,000"
+      label: "ORDERID"
       value: "order_id"
     }
     allowed_value: {
-      label: "All Results"
+      label: "PHONES"
       value: "phones"
     }
 }
