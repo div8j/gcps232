@@ -53,4 +53,34 @@ view: order_items {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]
   }
+
+  parameter: demo {
+    type: unquoted
+    allowed_value: {
+      label: "Less than 500"
+      value: "sale_price"
+    }
+    allowed_value: {
+      label: "Less than 10,000"
+      value: "order_id"
+    }
+    allowed_value: {
+      label: "All Results"
+      value: "phones"
+    }
+}
+
+measure: test {
+  type: number
+  sql: CASE
+        WHEN {% parameter demo %} = 'sale_price'
+        THEN ${sale_price}
+        WHEN {% parameter demo %} = 'order_id'
+        THEN ${order_id}
+        WHEN {% parameter demo %} = 'phones'
+        THEN ${phones}
+        ELSE 1
+        END
+        ;;
+}
 }
