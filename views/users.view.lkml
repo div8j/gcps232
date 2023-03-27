@@ -116,6 +116,7 @@ dimension: test_result {
 
   dimension: expiry_indicator2_ord {
     type: number
+    hidden: yes
     sql:
       CASE
       WHEN ${age} is null then 5
