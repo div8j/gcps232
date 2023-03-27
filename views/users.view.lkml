@@ -34,7 +34,17 @@ dimension: test_result {
     type: string
     sql: ${city} ;;
     link: {
-      url: "http://www.google.com/search?q={{ users.country._value}}"
+      label: "Google"
+      url: "http://www.google.com/search?q={{users.state._value}}"
+    }
+  }
+
+  measure: id_link {
+    type: number
+    sql: ${id} ;;
+    link: {
+      label: "Google"
+      url: "http://www.google.com/search?q={{users.state._value}}"
     }
   }
 
