@@ -46,41 +46,52 @@ view: order_items {
 
   dimension: sale_price {
     type: number
-    sql: ${TABLE}.sale_price ;;
+    sql: ROUND(${TABLE}.sale_price,1) ;;
   }
+
+  parameter: rtd_th_lower_value {
+   # hidden: yes
+    type: number
+    label: "Lower Threshold Value (RTD)"
+    view_label: "Thresholds"
+default_value: "-10"
+  }
+
+  parameter: rtd_th_upper_value {
+    #hidden: yes
+    type: number
+    label: "Upper Threshold Value (RTD)"
+    view_label: "Thresholds"
+default_value: "0"
+  }
+
+  measure: curr_rev_var_pcnt_to_date {
+    type: number
+   # hidden: yes
+    label: "Revenue - Var. % (Current Period)"
+    group_label: "RTD - Current Period (Var.)"
+    value_format_name: percent_2
+    sql: ${sale_price}/100;;
+
+    html: {% assign var_rtd_lower_th = rtd_th_lower_value._parameter_value | plus:0 %}
+    {% assign var_rtd_upper_th = rtd_th_upper_value._parameter_value | plus:0 %}
+    {% if var_rtd_lower_th < var_rtd_upper_th %}
+    {% if value < var_rtd_lower_th %}
+    <div style="color: indianred; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
+    {% elsif value >= var_rtd_upper_th %}
+    <div style="color: green; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
+    {% else %}
+    <div style="color: orange; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
+    {% endif %}
+    {% else %}
+    <div style="color: blue; font-size:100%"; title="Threshold values not configured properly, values grayed out">{{rendered_value}}</div>
+    {% endif %}
+    ;;
+  }
+
 
   measure: count {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]
   }
-
-  parameter: demo {
-    type: unquoted
-    allowed_value: {
-      label: "SALEPRICE"
-      value: "sale_price"
-    }
-    allowed_value: {
-      label: "ORDERID"
-      value: "order_id"
-    }
-    allowed_value: {
-      label: "PHONES"
-      value: "phones"
-    }
-}
-
-measure: test {
-  type: number
-  sql: CASE
-        WHEN {% parameter demo %} = 'sale_price'
-        THEN ${sale_price}
-        WHEN {% parameter demo %} = 'order_id'
-        THEN ${order_id}
-        WHEN {% parameter demo %} = 'phones'
-        THEN ${phones}
-        ELSE 1
-        END
-        ;;
-}
-}
+  }

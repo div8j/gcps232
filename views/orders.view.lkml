@@ -50,6 +50,15 @@ view: orders {
     {% endif %};;
   }
 
+  measure: returned_count {
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [detail*]
+    link: {
+      label: "Explore Top 20 Results"
+      url: "{{ link }}&limit=20"
+    }
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

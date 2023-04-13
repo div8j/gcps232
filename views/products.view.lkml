@@ -40,7 +40,7 @@ view: products {
 
   dimension: sku {
     type: string
-    sql: ${TABLE}.sku ;;
+    sql: ${TABLE}.sku;;
   }
 
   measure: count {
