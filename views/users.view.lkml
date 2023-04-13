@@ -12,7 +12,19 @@ view: users {
     type: number
     sql: ${TABLE}.age ;;
   }
-
+parameter: test {
+  type: unquoted
+  allowed_value: {
+    value: "Raj"
+  }
+  allowed_value: {
+    value: "sekhar"
+  }
+}
+dimension: test_result {
+  type: string
+  sql: "{% parameter test %}" ;;
+}
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -22,7 +34,17 @@ view: users {
     type: string
     sql: ${city} ;;
     link: {
-      url: "http://www.google.com/search?q={{ users.country._value}}"
+      label: "Google"
+      url: "http://www.google.com/search?q={{users.state._value}}"
+    }
+  }
+
+  measure: id_link {
+    type: number
+    sql: ${id} ;;
+    link: {
+      label: "Google"
+      url: "http://www.google.com/search?q={{users.state._value}}"
     }
   }
 
@@ -75,6 +97,38 @@ view: users {
     type: zipcode
     sql: ${TABLE}.zip ;;
   }
+
+  dimension: expiry_indicator2 {
+    order_by_field: expiry_indicator2_ord
+    type: string
+    sql:
+      CASE
+      WHEN ${age} is null THEN '> 90'
+      WHEN ${age} < 0     THEN 'Expired'
+      WHEN ${age} <= 30   THEN '0 - 30'
+      WHEN ${age} <= 60   THEN '31 - 60'
+      WHEN ${age} <= 90   THEN '61 - 90'
+                                     ELSE '> 90'
+      END
+  ;;
+  }
+
+
+  dimension: expiry_indicator2_ord {
+    type: number
+    hidden: yes
+    sql:
+      CASE
+      WHEN ${age} is null then 5
+      WHEN ${age} < 0   THEN 1
+      WHEN ${age} <= 30 THEN 2
+      WHEN ${age} <= 60 THEN 3
+      WHEN ${age} <= 90 THEN 4
+      ELSE 5
+      END
+  ;;
+  }
+
 
   measure: count {
     type: count
