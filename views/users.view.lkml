@@ -12,6 +12,8 @@ view: users {
     type: number
     sql: ${TABLE}.age ;;
   }
+
+
 parameter: test {
   type: unquoted
   allowed_value: {

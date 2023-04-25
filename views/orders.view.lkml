@@ -25,7 +25,8 @@ view: orders {
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
-  }
+    html: <img src="https://i.ibb.co/7pP628s/Screenshot-2023-04-13-3-22-07-PM.png"> ;;
+    }
 
   dimension: user_id {
     type: number

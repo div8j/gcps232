@@ -46,7 +46,7 @@ view: order_items {
 
   dimension: sale_price {
     type: number
-    sql: ROUND(${TABLE}.sale_price,1) ;;
+    sql: ${TABLE}.sale_price ;;
   }
 
   parameter: rtd_th_lower_value {
@@ -56,16 +56,14 @@ view: order_items {
     view_label: "Thresholds"
 default_value: "-10"
   }
-
-  parameter: rtd_th_upper_value {
+ parameter: rtd_th_upper_value {
     #hidden: yes
     type: number
     label: "Upper Threshold Value (RTD)"
     view_label: "Thresholds"
 default_value: "0"
   }
-
-  measure: curr_rev_var_pcnt_to_date {
+measure: curr_rev_var_pcnt_to_date {
     type: number
    # hidden: yes
     label: "Revenue - Var. % (Current Period)"
@@ -76,9 +74,9 @@ default_value: "0"
     html: {% assign var_rtd_lower_th = rtd_th_lower_value._parameter_value | plus:0 %}
     {% assign var_rtd_upper_th = rtd_th_upper_value._parameter_value | plus:0 %}
     {% if var_rtd_lower_th < var_rtd_upper_th %}
-    {% if value < var_rtd_lower_th %}
+    {% if sale_price._value < var_rtd_lower_th %}
     <div style="color: indianred; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
-    {% elsif value >= var_rtd_upper_th %}
+    {% elsif sale_price._value >= var_rtd_upper_th %}
     <div style="color: green; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
     {% else %}
     <div style="color: orange; font-size:100%"; title="Lower threshold ({{var_rtd_lower_th}}) & Upper threshold ({{var_rtd_upper_th}})">{{rendered_value}}</div>
