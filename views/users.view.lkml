@@ -13,6 +13,10 @@ view: users {
     sql: ${TABLE}.age ;;
   }
 
+  dimension: lat {
+    type: number
+    sql: ${TABLE}.lat ;;
+  }
 
 parameter: test {
   type: unquoted
