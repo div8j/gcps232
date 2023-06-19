@@ -66,7 +66,18 @@ dimension: test {
   dimension: sale_price {
     type: number
     sql: ${TABLE}.sale_price ;;
+    html:
+    <a href="#drillmenu" target="_self">
+    {% if rendered_value >= products.sum_retail_price._rendered_value %}
+    <span  title="Retailer Target: {{products.sum_retail_price._rendered_value}}" style="background-color: #A7D87C; color: #222; padding: 0 10px; display: block;">{{ rendered_value }}</span>
+    {% elsif rendered_value < products.sum_retail_price._rendered_value %}
+    <span  title="Retailer Target: {{products.sum_retail_price._rendered_value}}" style="background-color: #FB7C80; color: #222; padding: 0 10px; display: block;">{{ rendered_value }}</span>
+    {% else %}
+    <span title="No target set" style="padding: 0 10px;">{{ rendered_value }}</span>
+    {% endif %}
+    </a>;;
   }
+
 
 
   parameter: item_to_add_up {

@@ -53,4 +53,9 @@ view: products {
     sql: ${retail_price} ;;
     value_format:"$#.00;($#.00)"
   }
+
+  measure: sum_retail_price {
+    type: sum
+    sql: ${retail_price} ;;
+  }
 }
